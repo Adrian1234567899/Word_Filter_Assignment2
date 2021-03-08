@@ -15,6 +15,11 @@ struct SBannedText
 	string name8;
 };
 
+struct SText1
+{
+	string text1;
+};
+
 void WriteToFile(SBannedText bannedText)
 {
 	ofstream outfile("banned.txt");
@@ -31,6 +36,19 @@ void WriteToFile(SBannedText bannedText)
 	outfile << bannedText.name6 << endl;
 	outfile << bannedText.name7 << endl;
 	outfile << bannedText.name8 << endl;
+	outfile.close();
+
+}
+
+void WriteToFile2(SText1 newText)
+{
+	ofstream outfile("text1.txt");
+	if (!outfile)
+	{
+		cout << "ERROR: ";
+		cout << "Can't open output file\n";
+	}
+	outfile << newText.text1 << endl;
 	outfile.close();
 
 }
@@ -54,6 +72,28 @@ void ReadFromFile(SBannedText& bannedText)
 	infile.close();
 }
 
+void ReadFromFile2(SText1& newText)
+{
+	ifstream infile("text1.txt");
+	// read a whole line, including the white space, until the end of the file
+	/*infile.open("text1.txt");
+	while (!infile.eof())
+	{
+		getline(infile, str);
+		cout << str;
+		cout << endl;
+	}
+	infile.close();*/
+	
+	if (!infile)
+	{
+		cout << "ERROR: ";
+		cout << "Can't open input file\n";
+	}
+	infile >> newText.text1;
+	infile.close();
+}
+
 const int SIZE = 8;
 
 void DisplayBannedText(SBannedText bannedText)
@@ -73,7 +113,15 @@ void DisplayBannedText(SBannedText bannedText)
 	cout << bannedText.name8 << endl;
 }
 
-
+void DisplayText1(SText1 newText)
+{
+	/*for (int i = 0; i < SIZE; ++i)
+	{
+		cout << bannedText[i].name << endl;
+	}
+	cout << endl;*/
+	cout << newText.text1 << endl;
+}
 
 int main()
 {
@@ -116,8 +164,24 @@ int main()
 	textType.name8 = "";
 	ReadFromFile(textType);
 	DisplayBannedText(textType);
-	
-	
+
+
+	cout << "---------------" << endl;
+
+	SText1 textType2;
+
+	textType2.text1 = "this is a bit of doggoral but it will allow me to doggedly persue my aim of cataloguing the" 
+	"effect of applying a word filter the filter should pick out words such as cat dog and aim Who knows what other" 
+	"pernicious words it will endeavour to protect the innocent from there is no punctuation in order to make it"
+	"easier to identify the words and i have also written it entirely in lower case you will feel like a dog if you"
+	"do not manage the aim of this assignment but i expect everyone to be top cat";
+
+	WriteToFile2(textType2);
+	textType2.text1 = "";
+	ReadFromFile2(textType2);
+	DisplayText1(textType2);
+
+
 	//ifstream infile;
 	//infile.open("banned.txt");
 	//if (!infile)
