@@ -28,6 +28,7 @@ void WriteToFile(SBannedText bannedText)
 		cout << "ERROR: ";
 		cout << "Can't open output file\n";
 	}
+	
 	outfile << bannedText.name1 << endl;
 	outfile << bannedText.name2 << endl;
 	outfile << bannedText.name3 << endl;
@@ -74,9 +75,14 @@ void ReadFromFile(SBannedText& bannedText)
 
 void ReadFromFile2(SText1& newText)
 {
+
 	ifstream infile("text1.txt");
+	// A formatting command. It says do not skip //
+	// white scpace when reading from the input stream //
+	infile >> noskipws;
 	// read a whole line, including the white space, until the end of the file
 	/*infile.open("text1.txt");
+	string str;
 	while (!infile.eof())
 	{
 		getline(infile, str);
@@ -85,12 +91,15 @@ void ReadFromFile2(SText1& newText)
 	}
 	infile.close();*/
 	
-	if (!infile)
+	while (!infile.eof())
 	{
-		cout << "ERROR: ";
-		cout << "Can't open input file\n";
+		char ch;
+		infile >> ch;
+		if (!infile.eof())
+		{
+			cout << ch;
+		}
 	}
-	infile >> newText.text1;
 	infile.close();
 }
 
@@ -123,11 +132,28 @@ void DisplayText1(SText1 newText)
 	cout << newText.text1 << endl;
 }
 
+void ExistsInArray(int myArray[SIZE], int searchTerm)
+{
+	bool found = false;
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (myArray[i] == searchTerm)
+		{
+			found = true;
+		}
+	}
+	if (found == true)
+	{
+		cout << searchTerm << " found " << endl;
+	}
+}
+
+
 int main()
 {
 	
 
-	/*SBannedText bannedText[SIZE] = {
+	/*SBannedText textType[SIZE] = {
 		{ "cat" },
 		{ "dog" },
 		{ "aim" },
@@ -149,8 +175,8 @@ int main()
 	textType.name7 = "punk";
 	textType.name8 = "able";
 
-	//cout << endl << "The words are:" << endl;
-	//DisplayBannedText(bannedText);
+	cout << endl << "The words are:" << endl;
+	DisplayBannedText(textType);
 
 	WriteToFile(textType);
 	// let's check that read works by assigning empty strings and 0 to the "person" variable
@@ -170,16 +196,85 @@ int main()
 
 	SText1 textType2;
 
-	textType2.text1 = "this is a bit of doggoral but it will allow me to doggedly persue my aim of cataloguing the" 
-	"effect of applying a word filter the filter should pick out words such as cat dog and aim Who knows what other" 
-	"pernicious words it will endeavour to protect the innocent from there is no punctuation in order to make it"
-	"easier to identify the words and i have also written it entirely in lower case you will feel like a dog if you"
-	"do not manage the aim of this assignment but i expect everyone to be top cat";
+	textType2.text1 = "this is a bit of doggoral but it will allow me "
+	"to doggedly persue my aim of cataloguing the effect of applying a "
+	"word filter the filter should pick out words such as cat dog and aim "
+	"Who knows what other pernicious words it will endeavour to protect the "
+	"innocent from there is no punctuation in order to make it easier to "
+	"identify the words and i have also written it entirely in lower case "
+	"you will feel like a dog if you do not manage the aim of this "
+	"assignment but i expect everyone to be top cat ";
 
 	WriteToFile2(textType2);
 	textType2.text1 = "";
 	ReadFromFile2(textType2);
 	DisplayText1(textType2);
+
+	
+
+	ifstream infile("text1.txt");
+
+	// check for error
+	if (infile.fail())
+	{
+		cout << "Error opening file" << endl;
+	}
+	infile.close();
+	
+	string bannedWords;
+	int count = 0;
+
+	// read a file until end is reached
+	while (!infile.eof())
+	{
+		infile >> bannedWords;
+		if (bannedWords == "cat", "dog", "aim", "add", "ear", "back", "punk", "able")
+		{
+			count++;
+		}
+		
+	}
+
+	cout << count << " instances of cat found " << endl;
+	cout << count << " instances of dog found " << endl;
+	cout << count << " instances of aim found " << endl;
+	cout << count << " instances of add found " << endl;
+	cout << count << " instances of ear found " << endl;
+	cout << count << " instances of back found " << endl;
+	cout << count << " instances of punk found " << endl;
+	cout << count << " instances of able found " << endl;
+
+	return 0;
+	/*string myArray[SIZE] = {"cat, dog, aim, add, ear, back, punk, able" };
+	int searchTerm;
+	ExistsInArray(myArray, searchTerm);*/
+
+	system("pause");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	//ifstream infile;
@@ -266,6 +361,6 @@ int main()
 
 	//cout << "---------------" << endl;
 
-	system("pause");
+	
 	//return 0;
 }
